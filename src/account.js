@@ -35,8 +35,10 @@ var AccountInfo = React.createClass({
     },
     displayAllTuples() {
         var _this = this;
-        var tableQueries = ["http://www.cise.ufl.edu/~cheung/dataConn.php?" + "select * from users",
-            "http://www.cise.ufl.edu/~cheung/dataConn.php?" + "select * from weight"];
+
+        // TODO: All tables to display all tuples, add tables
+        var jenn = "http://www.cise.ufl.edu/~cheung/dataConn.php?";
+        var tableQueries = [jenn.concat("select * from users"), jenn.concat("select * from weight")];
         for (var table in tableQueries) {
             axios
                 .get(tableQueries[table])
@@ -54,9 +56,13 @@ var AccountInfo = React.createClass({
         var temp = loginInfo.globalLoggedIn;
         return (
             <div>
-                {temp? (<div>LOGGED IN</div>) : (<div><Button onClick={this.displayAllTuples}>Display all tuples</Button></div>)}
+                {temp? (<div>LOGGED IN
+
+                // Generate graph for weight over time period
+
+                </div>) : (<div><Button onClick={this.displayAllTuples}>Display all tuples</Button></div>)}
                 {this.state.displayTuples &&
-                    <div>Total number of tuples: {this.numTuples} <hr></hr> All Tuples: <hr></hr> {this.tuples}</div>
+                    <div>Total number of tuples: {this.numTuples} <hr></hr> {this.tuples} </div>
                 }
             </div>
         );
