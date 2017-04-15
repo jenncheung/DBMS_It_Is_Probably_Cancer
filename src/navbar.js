@@ -157,15 +157,13 @@ const Login = React.createClass({
                          <NavDropdown eventKey={3} title={this.state.userName} id="basic-nav-dropdown" noCaret>
                                 <MenuItem eventKey={3.1}>
                                     <Button
-
-                                        id="accountButton"
+                                        id="dropdownButton"
                                         onClick={this.goToAccounts}>Account
                                     </Button></MenuItem>
                                 <MenuItem eventKey={3.2}>Log</MenuItem>
-                                <MenuItem divider />
                                 <MenuItem eventKey={3.3}>
                                     <Button
-                                        id="foodsButton"
+                                        id="dropdownButton"
                                         onClick={this.goToFoods}>Foods
                                     </Button></MenuItem>
                                 <MenuItem divider />
