@@ -7,8 +7,13 @@ var loginInfo = require('./navbar.js');
 
 var AccountInfo = React.createClass({
     getInitialState() {
-    if(loginInfo.globalLoggedIn) {
-        var _this = this;
+        this.tuples = "All Tuples: \n";
+        this.numTuples = 0;
+
+
+
+        if(loginInfo.globalLoggedIn) {
+            var _this = this;
             axios
                 .get("http://www.cise.ufl.edu/~cheung/dataConn.php?" + "select * from users where email='" + loginInfo.globalUserName + "' and password='" + loginInfo.globalPassword + "'")
                 .then(function (result) {
@@ -24,13 +29,35 @@ var AccountInfo = React.createClass({
                     }
             });
         }
-        return null;
+        return ({
+            displayTuples: false
+        });
+    },
+    displayAllTuples() {
+        var _this = this;
+        var tableQueries = ["http://www.cise.ufl.edu/~cheung/dataConn.php?" + "select * from users",
+            "http://www.cise.ufl.edu/~cheung/dataConn.php?" + "select * from weight"];
+        for (var table in tableQueries) {
+            axios
+                .get(tableQueries[table])
+                .then(function (result) {
+
+                    _this.tuples = _this.tuples.concat(JSON.stringify(result.data));
+                    _this.numTuples = _this.numTuples + result.data.length;
+                    _this.setState({
+                        displayTuples : true
+                    });
+            });
+        }
     },
     render() {
         var temp = loginInfo.globalLoggedIn;
         return (
             <div>
-                {temp? (<div>LOGGED IN</div>) : (<div>Please Log In to see account information</div>)}
+                {temp? (<div>LOGGED IN</div>) : (<div><Button onClick={this.displayAllTuples}>Display all tuples</Button></div>)}
+                {this.state.displayTuples &&
+                    <div>Total number of tuples: {this.numTuples} <hr></hr> All Tuples: <hr></hr> {this.tuples}</div>
+                }
             </div>
         );
     }
