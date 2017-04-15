@@ -1,7 +1,7 @@
 DB credentials: 
 
 username: mkm
-password: abc-1234
+password: Abc-1234
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
