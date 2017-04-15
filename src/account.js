@@ -38,7 +38,10 @@ var AccountInfo = React.createClass({
 
         // TODO: All tables to display all tuples, add tables
         var jenn = "http://www.cise.ufl.edu/~cheung/dataConn.php?";
-        var tableQueries = [jenn.concat("select * from users"), jenn.concat("select * from weight")];
+        var sachin  = "http://www.cise.ufl.edu/~sedlabad/db.php?";
+        var tableQueries = [jenn.concat("select * from users"), jenn.concat("select * from weight"), sachin.concat("select * from food"), sachin.concat("select * from food_group"),
+                            sachin.concat("select * from health_conditions"), sachin.concat("select * from nutrient"),
+                            sachin.concat("select * from nutrition"), sachin.concat("select * from weight")];
         for (var table in tableQueries) {
             axios
                 .get(tableQueries[table])
