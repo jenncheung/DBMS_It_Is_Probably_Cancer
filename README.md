@@ -3,6 +3,9 @@ DB credentials:
 username: mkm
 password: Abc-1234
 
+username: sedlabad
+password: Password123
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
