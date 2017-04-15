@@ -27,10 +27,8 @@ const navbarInstance = (
     </Navbar.Header>
     <Navbar.Collapse>
         <Nav>
-            <NavItem eventKey={1} href="#">Foods</NavItem>
-			<LinkContainer to="/log">
-				<NavItem eventKey={2} href="#">Log</NavItem>
-			</LinkContainer>
+            <NavItem eventKey={1} onClick={ e => Router.browserHistory.push("/foods") }>Foods</NavItem>
+		    <NavItem eventKey={2} onClick={ e => Router.browserHistory.push("/log") } >Log</NavItem>
         </Nav>
     <Nav pullRight>
         <NavItem id="loginNav"></NavItem>
