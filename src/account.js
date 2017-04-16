@@ -11,9 +11,7 @@ var sachin  = "http://www.cise.ufl.edu/~sedlabad/db.php?";
 
 var AccountInfo = React.createClass({
     getInitialState() {
-        this.tuples = "All Tuples: \n";
         this.numTuples = 0;
-
         var _dataset = [];
 
 
@@ -119,16 +117,16 @@ var AccountInfo = React.createClass({
     },
     displayAllTuples() {
         var _this = this;
-        var tableQueries = [jenn.concat("select * from users"), jenn.concat("select * from weight"), sachin.concat("select * from food"), sachin.concat("select * from food_group"),
-                            sachin.concat("select * from health_conditions"), sachin.concat("select * from nutrient"),
-                            sachin.concat("select * from nutrition"), sachin.concat("select * from weight")];
+        var tableQueries = [jenn.concat("select count(*) as count from users"), jenn.concat("select count(*) as count from weight"),
+                            sachin.concat("select count(*) as count from food"), sachin.concat("select count(*) as count from food_group"),
+                            sachin.concat("select count(*) as count from health_conditions"),
+                            sachin.concat("select count(*) as count from nutrient"),
+                            sachin.concat("select count(*) as count from nutrition"), sachin.concat("select count(*) as count from weight")];
         for (var table in tableQueries) {
             axios
                 .get(tableQueries[table])
                 .then(function (result) {
-
-                    _this.tuples = _this.tuples.concat(JSON.stringify(result.data));
-                    _this.numTuples = _this.numTuples + result.data.length;
+                    _this.numTuples = _this.numTuples + parseInt(result.data[0].COUNT);
                     _this.setState({
                         displayTuples : true
                     });
@@ -152,7 +150,7 @@ var AccountInfo = React.createClass({
                 </div>) : (<div><Button onClick={this.displayAllTuples}>Display all tuples</Button></div>)}
                 {this.state.displayTuples &&
                     <div>
-                    Total number of tuples: {this.numTuples} <hr></hr> {this.tuples}
+                    Total number of tuples: {this.numTuples}
                     </div>
                 }
             </div>
