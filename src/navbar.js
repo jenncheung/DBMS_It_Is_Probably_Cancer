@@ -9,17 +9,13 @@ import { NavItem } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import { RadioGroup, Radio } from 'react-radio-group';
-import { Route, RouteHandler, Link, browserHistory } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
-import { routes } from './App'
 
 var globalUserName;
 var globalLoggedIn;
 var globalPassword;
 
 var Router = require('react-router');
-var account = require('./account.js');
-var foods = require('./search.js');
 
 const navbarInstance = (
     <Navbar inverse collapseOnSelect>
@@ -31,10 +27,8 @@ const navbarInstance = (
     </Navbar.Header>
     <Navbar.Collapse>
         <Nav>
-            <NavItem eventKey={1} href="#">Foods</NavItem>
-			<LinkContainer to="/log">
-				<NavItem eventKey={2} href="#">Log</NavItem>
-			</LinkContainer>
+            <NavItem eventKey={1} onClick={ e => Router.browserHistory.push("/foods") }>Foods</NavItem>
+		    <NavItem eventKey={2} onClick={ e => Router.browserHistory.push("/log") } >Log</NavItem>
         </Nav>
     <Nav pullRight>
         <NavItem id="loginNav"></NavItem>
@@ -88,9 +82,9 @@ const Login = React.createClass({
                         loginFailed: false,
                         errorMessage: undefined
                     });
-                    globalUserName = _this.state.userName;
-                    globalLoggedIn = _this.state.loggedIn;
-                    globalPassword = _this.state.password;
+                    module.exports.globalUserName = _this.state.userName;
+                    module.exports.globalLoggedIn = _this.state.loggedIn;
+                    module.exports.globalPassword = _this.state.password;
 
                     // Redirects to landing page
                     Router.browserHistory.push('/');
@@ -132,9 +126,10 @@ const Login = React.createClass({
                              loggedIn: true,
                              showModal: false
                         });
-                        globalUserName = _this.state.userName;
-                        globalLoggedIn = _this.state.loggedIn;
-                        globalPassword = _this.state.password;
+                        module.exports.globalUserName = _this.state.userName;
+                        module.exports.globalLoggedIn = _this.state.loggedIn;
+                        module.exports.globalPassword = _this.state.password;
+
                         Router.browserHistory.push('/');
                      }
                 }).catch(function (error) {
@@ -157,15 +152,13 @@ const Login = React.createClass({
                          <NavDropdown eventKey={3} title={this.state.userName} id="basic-nav-dropdown" noCaret>
                                 <MenuItem eventKey={3.1}>
                                     <Button
-
-                                        id="accountButton"
+                                        id="dropdownButton"
                                         onClick={this.goToAccounts}>Account
                                     </Button></MenuItem>
                                 <MenuItem eventKey={3.2}>Log</MenuItem>
-                                <MenuItem divider />
                                 <MenuItem eventKey={3.3}>
                                     <Button
-                                        id="foodsButton"
+                                        id="dropdownButton"
                                         onClick={this.goToFoods}>Foods
                                     </Button></MenuItem>
                                 <MenuItem divider />
@@ -309,5 +302,5 @@ const Login = React.createClass({
 ReactDOM.render(navbarInstance, document.getElementById("staticNavbar"));
 ReactDOM.render(<Login />, document.getElementById("loginNav"));
 
-module.export = { globalUserName, globalLoggedIn, globalPassword};
-export default Navbar;
+module.exports = { globalUserName, globalLoggedIn, globalPassword };
+export default Login;

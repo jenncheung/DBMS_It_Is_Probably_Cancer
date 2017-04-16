@@ -23,7 +23,7 @@
     width: 95%;
 }
 
-#accountButton {
+#dropdownButton {
     border: none;
 }
 
@@ -75,4 +75,9 @@
 	margin: 2em !important;
 	padding: 2em !important;
 	text-align: center;
+}
+
+#chartSize {
+    max-height: 500px;
+    max-width: 500px;
 }

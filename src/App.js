@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Login from './navbar';
 import AccountInfo from './account';
 import Search from './search';
 import ReactDOM from 'react-dom';
@@ -25,7 +23,6 @@ const routes = (
 		<Route path='/foods' component={Search} />
 		<Route path='/log' component={FoodLog} />
 		<Route path='/log2' component={FoodLog2} />
-		<Route component={Login} />
 	</Router>
 );
 
