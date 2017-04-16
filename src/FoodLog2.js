@@ -13,7 +13,7 @@ var FoodLog = React.createClass({
 			<div>
 				<Jumbotron className="not-logged-in">
 					<h1>Hello there!</h1>
-					<p>Please sign up inorder to access personal food log.</p>
+					<p>You must be logged in to access personal food log.</p>
 					<p><Button bsStyle="primary">Login/Signup</Button></p>
 				</Jumbotron>
 			</div>

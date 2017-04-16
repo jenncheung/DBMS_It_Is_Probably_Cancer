@@ -28,7 +28,12 @@ const navbarInstance = (
     <Navbar.Collapse>
         <Nav>
             <NavItem eventKey={1} onClick={ e => Router.browserHistory.push("/foods") }>Foods</NavItem>
-		    <NavItem eventKey={2} onClick={ e => Router.browserHistory.push("/log") } >Log</NavItem>
+		    <NavItem eventKey={2} onClick={ function(e) {
+		        if(globalLoggedIn)
+		            Router.browserHistory.push("/log");
+                else
+                    Router.browserHistory.push("/log2");
+		    }} >Log</NavItem>
         </Nav>
     <Nav pullRight>
         <NavItem id="loginNav"></NavItem>
@@ -82,6 +87,9 @@ const Login = React.createClass({
                         loginFailed: false,
                         errorMessage: undefined
                     });
+                    globalUserName = _this.state.userName;
+                    globalLoggedIn = _this.state.loggedIn;
+                    globalPassword = _this.state.password;
                     module.exports.globalUserName = _this.state.userName;
                     module.exports.globalLoggedIn = _this.state.loggedIn;
                     module.exports.globalPassword = _this.state.password;
@@ -126,6 +134,9 @@ const Login = React.createClass({
                              loggedIn: true,
                              showModal: false
                         });
+                        globalUserName = _this.state.userName;
+                        globalLoggedIn = _this.state.loggedIn;
+                        globalPassword = _this.state.password;
                         module.exports.globalUserName = _this.state.userName;
                         module.exports.globalLoggedIn = _this.state.loggedIn;
                         module.exports.globalPassword = _this.state.password;

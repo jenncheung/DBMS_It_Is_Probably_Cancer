@@ -76,3 +76,8 @@
 	padding: 2em !important;
 	text-align: center;
 }
+
+#chartSize {
+    max-height: 500px;
+    max-width: 500px;
+}
