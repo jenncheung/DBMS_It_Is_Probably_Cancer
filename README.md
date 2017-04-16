@@ -1,5 +1,8 @@
 DB credentials: 
 
+username: cheung
+password: data&base42017
+
 username: mkm
 password: Abc-1234
 
