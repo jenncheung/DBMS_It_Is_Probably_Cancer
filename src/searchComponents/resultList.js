@@ -20,7 +20,6 @@ const Result = React.createClass({
                   <NutrientDataModal name={this.props.name} id={this.props.id}/>
               </td>
             </tr>
-
       );
     },
 });
@@ -48,13 +47,22 @@ const ResultContainer = React.createClass({
   },
   render: function () {
     return (
-            <div>
-              <table>
-                <tbody>
-                {this.createResultTable(this.props.results)}
-                </tbody>
-              </table>
-            </div>
+      <div>
+        <table className="table table-striped table-hover">
+        { this.props.results.length > 0?
+          <thead>
+            <tr>
+              <th><h3>Food</h3></th>
+              <th><h3>Food Group</h3></th>
+            </tr>
+          </thead> 
+          :<thead></thead>
+        }
+          <tbody>
+          {this.createResultTable(this.props.results)}
+          </tbody>
+        </table>
+      </div>
     );
   }
 });

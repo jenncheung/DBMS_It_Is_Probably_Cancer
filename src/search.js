@@ -88,6 +88,9 @@ const Search = React.createClass({
 		return query;
 	},
 	search : function(){
+		this.setState({
+			queryResults : []
+		});
 		//figure out food groups filter
 		//There has to be a better way to do the following
 		var foodgroups = [];

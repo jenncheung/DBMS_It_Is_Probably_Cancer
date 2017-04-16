@@ -77,6 +77,9 @@ var NutrientDataModal = React.createClass({
     return query;
   },
   loadContent:function(){
+    this.setState({
+      data : []
+    });
     var query = this.formQuery();
       fetch(dbSource.concat(query))
       .then((response) => response.json())
@@ -120,14 +123,17 @@ var NutrientDataModal = React.createClass({
                 <div className="row">
                   <h5 className="col-md-4">Serving Size </h5>
                   <div  className="col-md-6"><ServingSize updateCB={this.updateServingSize} options={this.state.servingSize}/></div>
-
                 </div>
                 <table>
                   <tbody>
+                  {this.state.data.length > 0?
                   <tr>
                     <th> Nutrient </th>
                     <th> Amount </th>
+                    
                   </tr>
+                  :<tr>Loading...Please Wait!</tr>
+                  }
                   {
                     this.state.data.map(function(item, key) {
                      return (
