@@ -82,6 +82,10 @@
     max-width: 500px;
 }
 
+#bottomRadio {
+    margin-bottom: 50px;
+}
+
 /*!
  * https://github.com/YouCanBookMe/react-datetime
  */

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 import { Button } from "react-bootstrap";
+import { RadioGroup, Radio } from 'react-radio-group';
 import axios from 'axios';
 
 var loginInfo = require('./navbar.js');
@@ -9,11 +10,13 @@ var Chart = require('chart.js');
 var jenn = "http://www.cise.ufl.edu/~cheung/dataConn.php?";
 var sachin  = "http://www.cise.ufl.edu/~sedlabad/db.php?";
 
+
+var pastDays = "7";
+var queryGender = 'f';
 var AccountInfo = React.createClass({
     getInitialState() {
         this.numTuples = 0;
         var _dataset = [];
-
 
         // Get average weights of the days the user has recorded for the same gender
         axios
@@ -104,8 +107,12 @@ var AccountInfo = React.createClass({
                                     }
                                 }
                             });
+                            _this.setState({
+                                queryGender : 'f',
+                                pastDays: "7"
+                            });
+                            _this.makeLoginAverageChart();
                         });
-
                     } else {
                             _this.setState({ loginFailed: true });
                     }
@@ -133,6 +140,73 @@ var AccountInfo = React.createClass({
             });
         }
     },
+    changeGender(gender) {
+        queryGender = gender;
+        // For button image change
+        this.setState({ queryGender: gender });
+        this.makeLoginAverageChart();
+    },
+    changeTimePeriod(time) {
+        pastDays = time;
+        this.setState({ pastDays: time });
+        this.makeLoginAverageChart();
+    },
+    makeLoginAverageChart() {
+        var _this = this;
+        // Format date for query
+        var day = new Date();
+        day = new Date(day.getTime() - (pastDays * 24 * 60 * 60 * 1000))
+        var dd = day.getDate();
+        var mm = day.getMonth()+1; //January is 0!
+
+        var yyyy = day.getFullYear();
+        if(dd<10){
+            dd='0'+dd;
+        }
+        if(mm<10){
+            mm='0'+mm;
+        }
+        day = dd+'/'+mm+'/'+yyyy;
+
+        // Get number of logins by gender
+        axios
+            .get(jenn + "select day, count(*) as count from weight where email in (select email from users where gender='" + queryGender + "')" +
+                " and day > TO_DATE('"+ day + "','DD/MM/YYYY') group by day order by day")
+            .then(function (result) {
+                var numLogins = [];
+                var dates = [];
+
+                for(var tuple in result.data) {
+                    numLogins.push(result.data[tuple].COUNT);
+                    dates.push(result.data[tuple].DAY)
+                }
+
+                var ctx = document.getElementById("loginChart");
+                var accountChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: 'number of logins',
+                            data: numLogins,
+                            backgroundColor: [
+                                  'rgba(255, 199, 152, 0.2)',
+                            ],
+                            borderColor: [
+                                  'rgba(255,199,152,1)',
+                             ],
+                             borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Average Number of Logins'
+                        }
+                    }
+                });
+            });
+    },
     render() {
         var temp = loginInfo.globalLoggedIn;
         return (
@@ -146,6 +220,18 @@ var AccountInfo = React.createClass({
                     <h5> Weight over time </h5>
                     <div id="chartSize">
                         <canvas id="accountChart" width="45px" height="45px"></canvas>
+                    </div>
+                    <div id="chartSize">
+                        <canvas id="loginChart" width="45px" height="45px"></canvas>
+                        <RadioGroup name="gender" selectedValue={this.state.queryGender} onChange={this.changeGender}>
+                            <Radio value="f" />Female
+                            <Radio value="m" />Male
+                        </RadioGroup>
+                        <RadioGroup name="days" selectedValue={this.state.pastDays} onChange={this.changeTimePeriod} id="bottomRadio">
+                            <Radio value="7" />Week
+                            <Radio value="30" />Month
+                            <Radio value="365" /> Year
+                        </RadioGroup>
                     </div>
                 </div>) : (<div><Button onClick={this.displayAllTuples}>Display all tuples</Button></div>)}
                 {this.state.displayTuples &&
