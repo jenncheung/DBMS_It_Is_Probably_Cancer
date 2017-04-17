@@ -3,7 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import navbar from './navbar';
 var ReactRouter = require('react-router');
-import {Table,FormGroup,ControlLabel,FormControl} from 'react-bootstrap'
+import {Table,FormGroup,ControlLabel,FormControl,Button} from 'react-bootstrap'
+import Datetime from 'react-datetime';
 //import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 
@@ -86,14 +87,9 @@ var FoodLog = React.createClass({
 	},
 	
 	
-	addRow: function (result) {
-    return (<FoodLog 
-              key={result.ID}
-              id={result.ID}
-              name={result.NAME}
-              desc={result.DESCRIPTION}
-              onBtnClick={this.onResultClick}
-               />
+	addRow: function () {
+    return (
+			<FoodLog />
            );
 	},
   
@@ -115,6 +111,36 @@ var FoodLog = React.createClass({
 		
 	},
 	
+	
+	insertData: function(){
+		
+	},
+	
+	/*handleInsertBtnClick(e){
+		var fakeRow = {
+		  meal: "" ,
+		  food_item: "",
+		  food_desc: "",
+		  quantity:  "",
+		};
+	
+		var result = this.refs.table.handleAddRow(fakeRow);
+		if(result){  //some error happen, ex: doesn't assign row key or row key duplicated
+			console.log(result);
+		}
+	},*/
+		
+	
+	renderDay: function( props, currentDate, selectedDate ){
+        return <td {...props}>{ '0' + currentDate.date() }</td>;
+    },
+    renderMonth: function( props, month, year, selectedDate ){
+        return <td {...props}>{ month }</td>;
+    },
+    renderYear: function( props, year, selectedDate ){
+        return <td {...props}>{ year % 100 }</td>;
+    },
+	
 		
 	render: function() {
 		//alert('in foodlog');
@@ -123,6 +149,7 @@ var FoodLog = React.createClass({
 				<Table responsive striped bordered condensed hover> 
 					<thead>
 					  <tr>
+						<th>Date</th>
 						<th>Meal</th>
 						<th>Food</th>
 						<th>Quantity/Serving Size</th>
@@ -130,9 +157,12 @@ var FoodLog = React.createClass({
 					</thead>
 					<tbody>
 					  <tr>
+						<td height="250" width="200">
+							<Datetime />
+						</td>
 						<td> 
 						<FormGroup controlId="formControlsSelect">
-						  <ControlLabel></ControlLabel>
+						  <ControlLabel>Select</ControlLabel>
 						  <FormControl componentClass="select" placeholder="select">
 							<option value="Breakfast">Breakfast</option>
 							<option value="Lunch">Lunch</option>
@@ -179,10 +209,12 @@ var FoodLog = React.createClass({
 								}).bind(this) ()}
 							  </FormControl>
 							</FormGroup>
+							<Button bsStyle="primary" onClick={this.addRow}>Done</Button>
 						</td>
 					  </tr>
 					</tbody>
 				</Table>
+				<Button bsStyle="primary" bsSize="large" onClick={this.addRow}>TRENDS</Button>
 			</div>
 		);
 	}
@@ -207,3 +239,16 @@ module.exports = FoodLog;
 									<DropdownItem>Dinner</DropdownItem>
 								</DropdownMenu>
 							</Dropdown>*/
+							
+//<Button bsStyle="primary" onClick={this.handleInsertBtnClick.bind(this)}>Done</Button>
+
+/*
+<td>
+							<Datetime
+								renderDay={ this.renderDay }
+								renderMonth={ this.renderMonth }
+								renderYear={ this.renderYear }
+							/>;
+						</td>
+						
+						*/
