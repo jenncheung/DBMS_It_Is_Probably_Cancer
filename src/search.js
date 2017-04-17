@@ -54,7 +54,8 @@ const Search = React.createClass({
 		return q;
 	},
 	formQuery: function(foodgroups){
-		var query = "select f.id, f.long_desc as name, g.name as description from food f JOIN food_group g on f.food_group_id = g.id "
+		var query = `select f.id, f.long_desc as name, g.name as description from 
+						food f JOIN food_group g on f.food_group_id = g.id `	
 
 		if (foodgroups.length !== 0 || document.getElementById('searchparam').value){
 			query += " where ";
@@ -91,6 +92,8 @@ const Search = React.createClass({
 		this.setState({
 			queryResults : []
 		});
+		document.getElementById('searchStatus').innerText = "Loading...Please Wait!";
+		document.getElementById('searchStatus').className = "label label-info";
 		//figure out food groups filter
 		//There has to be a better way to do the following
 		var foodgroups = [];

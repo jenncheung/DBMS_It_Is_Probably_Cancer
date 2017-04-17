@@ -124,16 +124,17 @@ var NutrientDataModal = React.createClass({
                   <h5 className="col-md-4">Serving Size </h5>
                   <div  className="col-md-6"><ServingSize updateCB={this.updateServingSize} options={this.state.servingSize}/></div>
                 </div>
-                <table>
+                <br/>
+                {this.state.data.length > 0? 
+                <table className="table table-striped table-hover">
                   <tbody>
-                  {this.state.data.length > 0?
+                  
                   <tr>
                     <th> Nutrient </th>
                     <th> Amount </th>
                     
                   </tr>
-                  :<tr>Loading...Please Wait!</tr>
-                  }
+                  
                   {
                     this.state.data.map(function(item, key) {
                      return (
@@ -146,6 +147,8 @@ var NutrientDataModal = React.createClass({
                   }
                   </tbody>
                 </table>
+                :<h5 className="label label-info">Loading...Please Wait!</h5>
+                }
               </Modal.Body>
               <Modal.Footer>
                   <Button onClick={this.close}>Close</Button>
