@@ -167,14 +167,13 @@ const Login = React.createClass({
                                         id="dropdownButton"
                                         onClick={this.goToAccounts}>Account
                                     </Button></MenuItem>
-                                <MenuItem eventKey={3.2}>Log</MenuItem>
-                                <MenuItem eventKey={3.3}>
+                                <MenuItem eventKey={3.2}>
                                     <Button
                                         id="dropdownButton"
                                         onClick={this.goToFoods}>Foods
                                     </Button></MenuItem>
                                 <MenuItem divider />
-                                <MenuItem eventKey={3.4}>
+                                <MenuItem eventKey={3.3}>
                                     <Button
                                         bsStyle="primary"
                                         onClick={this.logOut}>Log Out
@@ -233,8 +232,8 @@ const Login = React.createClass({
                                 onChange={this.handleInputChange} />
                             <h5>Gender</h5>
                             <RadioGroup name="gender" selectedValue={this.state.gender} onChange={this.handleInputChange}>
-                                <Radio value="F" />Female
-                                <Radio value="M" />Male
+                                <Radio value="f" />Female
+                                <Radio value="m" />Male
                             </RadioGroup>
                             <h5>Weight</h5>
                             <input
