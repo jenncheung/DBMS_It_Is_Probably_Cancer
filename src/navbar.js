@@ -34,6 +34,7 @@ const navbarInstance = (
                 else
                     Router.browserHistory.push("/log2");
 		    }} >Log</NavItem>
+            <NavItem eventKey={1} onClick={ e => Router.browserHistory.push("/trends") }>Trends</NavItem>
         </Nav>
     <Nav pullRight>
         <NavItem id="loginNav"></NavItem>

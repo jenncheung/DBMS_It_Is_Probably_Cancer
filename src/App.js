@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import { Route, browserHistory, Router, IndexRoute } from 'react-router';
 import FoodLog from './FoodLog'
 import FoodLog2 from './FoodLog2'
+import Trends from './trends'
 
 class App extends Component {
   render() {
@@ -23,6 +24,7 @@ const routes = (
 		<Route path='/foods' component={Search} />
 		<Route path='/log' component={FoodLog} />
 		<Route path='/log2' component={FoodLog2} />
+		<Route path='/trends' component={Trends} />
 	</Router>
 );
 
