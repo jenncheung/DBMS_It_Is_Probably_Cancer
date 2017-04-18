@@ -6,11 +6,12 @@ var ReactRouter = require('react-router');
 import {Table,FormGroup,ControlLabel,FormControl,Button} from 'react-bootstrap'
 import Datetime from 'react-datetime';
 //import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { globalUserName } from './navbar';
 
 
 
 const dbSource = "http://www.cise.ufl.edu/~sedlabad/db.php?";
-
+var foodItem;
 
 var FoodLog = React.createClass({
 	selectServingSize : 100,
@@ -25,7 +26,14 @@ var FoodLog = React.createClass({
 		return ({
 		  showModal:false,
 		  data:[],
-		  servingSize: [] //TODO:fetch serving size for the given food and pass here
+		  servingSize: [], //TODO:fetch serving size for the given food and pass here
+		  email: globalUserName,
+		  meal_date: '',
+		  meal: '',
+		  food_item: '',
+		  food_id: '',
+		  food_desc: '',
+		  quantity: ''
 		});
 	},
 	
@@ -61,9 +69,10 @@ var FoodLog = React.createClass({
 	},
 	loadContent:function(e){
 		this.setState({
-			data : []
+			data : [],
         });
 		console.log('search: ', e.target.value);
+		foodItem = e.target.value;
 		//var query = this.formQuery(e.target.value);
 		var query = "select id, short_desc from food where LOWER(short_desc) like '%" + e.target.value.toLowerCase() + "%'";
 		console.log('query: ', query);
@@ -85,19 +94,13 @@ var FoodLog = React.createClass({
 		showModal:true
 		});*/
 	},
-	
-	
-	addRow: function () {
-    return (
-			<FoodLog />
-           );
-	},
-  
-	createResultTable: function (results) {
-		return results.map(this.addRow);
-	},
+
 	getQuantity: function(e) {
-		console.log("selected ", e.target.value);
+		this.setState({
+			food_id: e.target.value,
+			food_desc: e.target[e.target.selectedIndex].text
+		});
+		console.log("selected ", e.target[e.target.selectedIndex].text);
 		var query = "select amount, description from weight where food_id=" + e.target.value;
 		console.log('query: ', query);
 		fetch(dbSource.concat(query))
@@ -111,36 +114,36 @@ var FoodLog = React.createClass({
 		
 	},
 	
-	
-	insertData: function(){
-		
+	handleDateChange: function(e) {
+		//console.log('date', e.format('YYYY-MM-DD'));
+		this.setState({
+			meal_date: e.format('YYYY-MM-DD')
+		});
 	},
 	
-	/*handleInsertBtnClick(e){
-		var fakeRow = {
-		  meal: "" ,
-		  food_item: "",
-		  food_desc: "",
-		  quantity:  "",
-		};
+	handleMealChange: function(e) {
+		this.setState({
+			meal: e.target.value
+		});
+	},
 	
-		var result = this.refs.table.handleAddRow(fakeRow);
-		if(result){  //some error happen, ex: doesn't assign row key or row key duplicated
-			console.log(result);
-		}
-	},*/
-		
+	handleServingSizeChange: function(e) {
+		this.setState({
+			quantity: e.target.value
+		});
+	},
 	
-	renderDay: function( props, currentDate, selectedDate ){
-        return <td {...props}>{ '0' + currentDate.date() }</td>;
-    },
-    renderMonth: function( props, month, year, selectedDate ){
-        return <td {...props}>{ month }</td>;
-    },
-    renderYear: function( props, year, selectedDate ){
-        return <td {...props}>{ year % 100 }</td>;
-    },
-	
+	insertData: function(){
+		var query = "insert into log values(" + this.state.food_id + "," + this.state.email + "," + this.state.meal_date + "," + this.state.meal + "," + foodItem
+						+ "," + this.state.food_desc + "," + this.state.quantity + ")";
+		console.log('insert query: ', query);
+		  fetch(dbSource.concat(query))
+		  .then((response) => response.json())
+		  .then((json) => {
+			  console.log('json ', json);
+			  //location.reload();
+		  });
+	},	
 		
 	render: function() {
 		//alert('in foodlog');
@@ -158,12 +161,12 @@ var FoodLog = React.createClass({
 					<tbody>
 					  <tr>
 						<td height="250" width="200">
-							<Datetime />
+							<Datetime onChange={this.handleDateChange} />
 						</td>
 						<td> 
 						<FormGroup controlId="formControlsSelect">
 						  <ControlLabel>Select</ControlLabel>
-						  <FormControl componentClass="select" placeholder="select">
+						  <FormControl componentClass="select" placeholder="select" onChange={this.handleMealChange}>
 							<option value="Breakfast">Breakfast</option>
 							<option value="Lunch">Lunch</option>
 							<option value="Snacks">Snacks</option>
@@ -195,7 +198,7 @@ var FoodLog = React.createClass({
 						<td>
 							<FormGroup controlId="formControlsSelect">
 							  <ControlLabel>Select</ControlLabel>
-							  <FormControl componentClass="select" placeholder="select">
+							  <FormControl componentClass="select" placeholder="select" onChange={this.handleServingSizeChange}>
 								{(function () {
 									console.log('servingSize:', this.state.servingSize);
 									var servingSizeList = [];
@@ -209,12 +212,11 @@ var FoodLog = React.createClass({
 								}).bind(this) ()}
 							  </FormControl>
 							</FormGroup>
-							<Button bsStyle="primary" onClick={this.addRow}>Done</Button>
+							<Button bsStyle="primary" onClick={this.insertData}>Done</Button>
 						</td>
 					  </tr>
 					</tbody>
 				</Table>
-				<Button bsStyle="primary" bsSize="large" onClick={this.addRow}>TRENDS</Button>
 			</div>
 		);
 	}
