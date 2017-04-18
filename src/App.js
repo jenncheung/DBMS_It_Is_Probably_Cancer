@@ -7,6 +7,7 @@ import { Route, browserHistory, Router, IndexRoute } from 'react-router';
 import FoodLog from './FoodLog'
 import FoodLog2 from './FoodLog2'
 import Trends from './trends'
+import LandingPage from './landingPage';
 
 class App extends Component {
   render() {
@@ -19,7 +20,7 @@ const Home = () => <h1>LANDING PAGE</h1>;
 
 const routes = (
 	<Router history={browserHistory}>
-		<Route path='/' component={Home} />
+		<Route path='/' component={LandingPage} />
 		<Route path='/account' component={AccountInfo} />
 		<Route path='/foods' component={Search} />
 		<Route path='/log' component={FoodLog} />
