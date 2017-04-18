@@ -134,9 +134,9 @@ var FoodLog = React.createClass({
 	},
 	
 	insertData: function(){
-		var query = "insert into log values(" + this.state.food_id + "," + this.state.email + "," + this.state.meal_date + "," + this.state.meal + "," + foodItem
-						+ "," + this.state.food_desc + "," + this.state.quantity + ")";
-		console.log('insert query: ', query);
+		var query = "insert into log values(" + this.state.food_id + ",'" + this.state.email + "',to_date('" + this.state.meal_date + "','YYYY-MM-DD'),'" + this.state.meal + "','" + foodItem
+						+ "','" + this.state.food_desc + "','" + this.state.quantity + "')";
+		console.log("insert query " + query);
 		  fetch(dbSource.concat(query))
 		  .then((response) => response.json())
 		  .then((json) => {
